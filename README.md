@@ -1,18 +1,30 @@
-Docker Image: 
-•	It is a container blueprint containing a runtime environment (like node), application code, dependencies, configurations (env variables), and commands.
-•	It is read-only and needs to be a new one after any change.
+Here's the formatted explanation for GitHub:
 
-Container:
-•	A process that runs our application as outlined in Image.
-•	They are isolated from other processes inside our computer.
+## Docker Image
 
-We can share an image of an application that can be used to create similar applications on different computers.
+- **Definition**: A Docker Image is a container blueprint that includes a runtime environment (such as Node.js), application code, dependencies, configurations (environment variables), and commands.
+- **Properties**: It is read-only and requires rebuilding after any changes.
 
-Images are made up of several layers:
-•	Parent Image: Includes the OS and sometimes the runtime environment.
-•	Source Code
-•	Dependencies
+## Container
 
-Where to get Images? Several images are listed at hub.docker.com and can be pulled using the following command in the terminal, it also has tags for different distributions: 
+- **Definition**: A Container is a process that runs the application as defined in the Docker Image.
+- **Isolation**: Containers are isolated from other processes on the host computer.
+
+## Sharing Docker Images
+
+Docker Images can be shared to create similar applications on different computers.
+
+### Image Composition
+
+Docker Images consist of several layers:
+- **Parent Image**: Includes the operating system and sometimes the runtime environment.
+- **Source Code**
+- **Dependencies**
+
+## Where to Get Docker Images
+
+Several Docker Images are available at [hub.docker.com](https://hub.docker.com) and can be pulled using the terminal command:
+```bash
 docker pull node
-After pulling an image, we can run it in the container section of docker and interact with it using the command line interface.
+```
+After pulling an image, it can be run in the Docker container section and interacted with via the command line interface.
