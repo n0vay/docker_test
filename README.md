@@ -38,8 +38,8 @@ The file contains instructions for Docker to build and run applications.
 More information is provided in the comments of the Dockerfile.
 
 ### When to use RUN and CMD commands inside Dockerfile?
-- **Run is used for commands which are used during the building phase of the application for eg RUN npm install
-- **CMD is used for commands which are to be run when we have an instance inside the container and are written as CMD ["node", "app.js"]
+- `Run` is used for commands which are used during the building phase of the application for eg RUN npm install
+- `CMD` is used for commands which are to be run when we have an instance inside the container and are written as CMD ["node", "app.js"]
 
 Here is the formatted code for your GitHub README:
 
