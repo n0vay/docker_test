@@ -106,6 +106,20 @@ Docker Compose:
 Docker compose contains configuration for the project like port mappings, volumes, names etc.
 Create a file named docker-compose.yaml in the root directory of the project.
 
+
+Run the docker-compose file by using:
+```bash
+docker compose up
+```
+Stop and delete the container by using
+```bash
+docker compose down
+```
+Remove all the images, containers and volumes inside the docker-compose by using: -v is for volumes, --rmi is for removing images
+```bash
+docker compose down --rmi all -v
+```
+
 ### Running Container from Applcation
 Start it from the images tab, and specify the name and the port number on our system which should be mapped to the port on the container.
 
