@@ -41,138 +41,144 @@ More information is provided in the comments of the Dockerfile.
 - **Run is used for commands which are used during the building phase of the application for eg RUN npm install
 - **CMD is used for commands which are to be run when we have an instance inside the container and are written as CMD ["node", "app.js"]
 
-### How to interact with a Docker Image?
-We specify ports inside the dockerfile which are then mapped to external ports while creating a container. The expose command is required if we are using the Docker Desktop Application.
+Here is the formatted code for your GitHub README:
 
-###How to build the image from dockerfile? -t tag is for name.
+## How to Interact with a Docker Image?
+We specify ports inside the Dockerfile which are then mapped to external ports while creating a container. The `EXPOSE` command is required if we are using the Docker Desktop Application.
+
+## How to Build the Image from Dockerfile?
+The `-t` tag is for the name.
+
+Build the image:
 ```bash
 docker build -t myapp .
 ```
-Add tag to name by:
+
+Add a tag to the name:
 ```bash
 docker build -t myapp:v1 .
 ```
-Where my app is the name of the image and . is the relative path to docker file
+Where `myapp` is the name of the image and `.` is the relative path to the Dockerfile.
 
-For all the info we don't want to go into the image there is a .dockerignore file present in the same directory as dockerfile which works similarly to .gitignore.
+## .dockerignore
+For all the info we don't want to go into the image, there is a `.dockerignore` file present in the same directory as the Dockerfile, which works similarly to `.gitignore`.
 
-Layer Caching:
-Images are immutable and cannot be changed after creation.
-Docker uses resources each time to download and create images, these layers are cached inside Docker for performance.
-Write docker files in such a way that the common components of the builds such as dependencies are reused from the cache.
-eg copying packagelock.json first and doing npm install first before copying all the files would help docker perform better as up to this point there are no changes from the cached image.
-
-Volumes:
-If we change the code in our application and stop-start the container, it will not change in the container as the image is read-only.
-Volumes is a feature of docker that helps us to specify folders in our working directory that becomes available to the containers because of frequent changes to code while development.
-Volumes map the folder on the local machine to the folders inside the container so the local changes are reflected inside the container.
-Important info: The actual image does not change, when sharing the image we have to create a new one. Its just for testing and development.
-
-How to setup  volumes:
-
-Add nodemon to our image globally by adding the command in the docker file
-```bash
-dRUN npm install -g nodemon
-```
-Nodemon watches the file for change and restarts server when it detects a change, add the following script in the docker file: nodemon app.js.
-But we should probably add it to scripts in packagelock.json and run the script from the dockerfile.
-In the packagelock.json add the following script, -L is for windows:
-```bash
-"dev": "nodemon -L app.js"
-```
-and replace the CMD in docker file by to run the dev script:
-```bash
-CMD ["npm", "run", "dev"]
-```
-now nodemon will restart the server when it detects a change in the files.
-
-Build the image by using, just used nodemon for tag:
-```bash
-docker build -t myapp:nodemon
-```
-Run the image using the following command:
-```bash
-docker run --name myapp_nodemon -p 4000:4000 -rm -v C:\Users\Shantanu\node_projects\docker_test:/app -v /app/node_modules myapp:nodemon
-```
-where my app_nodemon is name of conatiner
--p 4000:4000 is port mapping
--rm is tage to delete container after being stopped
-myapp:nodemon is the name and tag of the image
--v "absolute path of project":"path inside the container" maps the local files to the container files
--v /app/node_modules creates a separate volume for the dependencies which are not mapped from local to the container because we do not want to mirror those changes. 
-It maps the changes from the container to a folder managed by docker. As the second volume has a more specific path it does not interfere with the first volume.
-
-Docker Compose:
-Docker compose contains configuration for the project like port mappings, volumes, names etc.
-Create a file named docker-compose.yaml in the root directory of the project.
-
-
-Run the docker-compose file by using:
-```bash
-docker compose up
-```
-Stop and delete the container by using
-```bash
-docker compose down
-```
-Remove all the images, containers and volumes inside the docker-compose by using: -v is for volumes, --rmi is for removing images
-```bash
-docker compose down --rmi all -v
-```
-
-### Running Container from Applcation
+## Running Container from Application
 Start it from the images tab, and specify the name and the port number on our system which should be mapped to the port on the container.
 
-### Running Containers from CLI
-See images in the system by using docker images
+## Running Containers from CLI
+### See Images in the System
 ```bash
 docker images
 ```
-Run image by using docker run command
+
+### Run Image
 ```bash
 docker run --name myapp_container -p 4000:4000 -d myapp_image
 ```
-where 
---name specifies name of container
--p local port: container port defines the port links
--d means detached mode and the current terminal will not be used as container cli. The current terminal is detached.
+- `--name`: Specifies name of the container
+- `-p local port:container port`: Defines the port links
+- `-d`: Detached mode, the current terminal will not be used as container CLI
 
-list current running containers by using 
+### List Current Running Containers
 ```bash
 docker ps
 ```
-list all containers by using 
+
+### List All Containers
 ```bash
 docker ps -a
 ```
-stop by
+
+### Stop Container
 ```bash
 docker stop myapp_container
 ```
-remove the image by:
+
+### Remove the Image
 ```bash
-docker images rm myapp
+docker rmi myapp
 ```
-what if the container is using that image?
-force the removal by adding -f tag
+
+### Force Removal if Container is Using the Image
 ```bash
-docker images rm myapp -f
+docker rmi myapp -f
 ```
-or remove the container by using:
+Or remove the container first:
 ```bash
-docker container rm myapp
+docker container rm myapp_container
 ```
-for all the containers using the image and then remove the image.
-To start a container, it will start in detached mode by default:
+
+### Start a Container
 ```bash
 docker start myapp_container
 ```
-To remove all the docker images, containers and volumes use:
+
+### Remove All Docker Images, Containers, and Volumes
 ```bash
 docker system prune -a
 ```
+## Layer Caching
+Images are immutable and cannot be changed after creation. Docker uses resources each time to download and create images, and these layers are cached inside Docker for performance.
 
+Write Dockerfiles in such a way that the common components of the builds, such as dependencies, are reused from the cache. For example, copying `package-lock.json` first and doing `npm install` before copying all the files would help Docker perform better as up to this point there are no changes from the cached image.
 
+## Volumes
+If we change the code in our application and stop-start the container, it will not change in the container as the image is read-only. Volumes is a feature of Docker that helps us specify folders in our working directory that become available to the containers because of frequent changes to code during development.
+
+Volumes map the folder on the local machine to the folders inside the container, so the local changes are reflected inside the container.
+
+**Important Info:** The actual image does not change. When sharing the image, we have to create a new one. This is just for testing and development.
+
+### How to Set Up Volumes
+1. Add nodemon to our image globally by adding the command in the Dockerfile:
+    ```bash
+    RUN npm install -g nodemon
+    ```
+2. Nodemon watches the file for changes and restarts the server when it detects a change. Add the following script in the Dockerfile: `nodemon app.js`. But we should probably add it to scripts in `package.json` and run the script from the Dockerfile.
+    In `package.json`, add the following script:
+    ```bash
+    "dev": "nodemon -L app.js"
+    ```
+3. Replace the CMD in Dockerfile to run the dev script:
+    ```bash
+    CMD ["npm", "run", "dev"]
+    ```
+    Now nodemon will restart the server when it detects a change in the files.
+
+### Build the Image
+```bash
+docker build -t myapp:nodemon .
+```
+
+### Run the Image
+```bash
+docker run --name myapp_nodemon -p 4000:4000 --rm -v C:\Users\Shantanu\node_projects\docker_test:/app -v /app/node_modules myapp:nodemon
+```
+- `myapp_nodemon`: Name of the container
+- `-p 4000:4000`: Port mapping
+- `--rm`: Tag to delete container after being stopped
+- `myapp:nodemon`: Name and tag of the image
+- `-v "absolute path of project":"path inside the container"`: Maps the local files to the container files
+- `-v /app/node_modules`: Creates a separate volume for the dependencies which are not mapped from local to the container because we do not want to mirror those changes.
+
+## Docker Compose
+Docker compose contains configuration for the project like port mappings, volumes, names, etc. Create a file named `docker-compose.yaml` in the root directory of the project.
+
+### Run the Docker Compose File
+```bash
+docker compose up
+```
+
+### Stop and Delete the Container
+```bash
+docker compose down
+```
+
+### Remove All Images, Containers, and Volumes
+```bash
+docker compose down --rmi all -v
+```
 
 
 
