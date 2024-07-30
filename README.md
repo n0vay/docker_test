@@ -163,7 +163,12 @@ docker run --name myapp_nodemon -p 4000:4000 --rm -v C:\Users\Shantanu\node_proj
 - `-v /app/node_modules`: Creates a separate volume for the dependencies which are not mapped from local to the container because we do not want to mirror those changes.
 
 ## Docker Compose
-Docker compose contains configuration for the project like port mappings, volumes, names, etc. Create a file named `docker-compose.yaml` in the root directory of the project.
+As we can see that the command for running an image is taking too many parameters. So we replace it with an Docker Compose file.
+Docker compose contains configuration for the project like port mappings, volumes, names, etc. 
+Create a file named `docker-compose.yaml` in the root directory of the project.
+
+
+
 
 ### Run the Docker Compose File
 ```bash
