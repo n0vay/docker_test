@@ -186,5 +186,30 @@ docker compose down --rmi all -v
 ```
 
 
+## Docker Hub
+
+We can create an repository on dockerhub and export our images online
+
+### Create the image by
+```bash
+docker build -t novay/myapp .
+```
+where novay/myapp is the image name and the repository name,
+
+### Login to docker
+```bash
+docker login
+```
+
+### Push the image by
+```bash
+docker push novay/myapp
+```
+
+### Pull the image by
+```bash
+docker pull novay/myapp
+```
+
 
 
